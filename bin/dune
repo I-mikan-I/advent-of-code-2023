@@ -1,0 +1,12 @@
+(executable
+ (public_name aoc23)
+ (name main)
+ (modules main)
+ (libraries aoc23))
+
+(executable
+ (name day01)
+ (modules day01)
+ (libraries aoc23 sexplib str)
+ (preprocess
+  (pps ppx_jane)))
