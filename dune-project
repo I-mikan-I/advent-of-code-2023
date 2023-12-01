@@ -15,11 +15,12 @@
 
 (documentation https://url/to/documentation)
 
+ (using "directory-targets" 0.1)
 (package
  (name aoc23)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune base ppx_jane sexplib (ppx_expect :with-test) (ppx_inline_test :with-test))
+ (depends ocaml dune base ppx_jane sexplib (ppx_expect :with-test) (ppx_inline_test :with-test) containers)
  (tags
   (topics "to describe" your project)))
 

@@ -1,2 +1,21 @@
 (library
- (name aoc23))
+ (name days)
+ (libraries containers str)
+ (inline_tests
+  (deps
+   (glob_files ./resources/*)))
+ (preprocess
+  (pps ppx_expect ppx_inline_test)))
+
+(rule
+ (target
+  (dir resources))
+ (deps
+  (glob_files ../resources/*))
+ (action
+  (system "mkdir ./resources && cp ../resources/* ./resources/")))
+
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))

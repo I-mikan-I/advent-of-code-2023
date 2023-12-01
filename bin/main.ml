@@ -1,1 +1,3 @@
-let () = print_endline "Hello, World!"
+open Days
+
+let () = Day01.exec ()

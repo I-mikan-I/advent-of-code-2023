@@ -2,11 +2,12 @@
  (public_name aoc23)
  (name main)
  (modules main)
- (libraries aoc23))
+ (libraries days))
 
-(executable
- (name day01)
- (modules day01)
- (libraries aoc23 sexplib str)
- (preprocess
-  (pps ppx_jane)))
+(copy_files
+ (files ../resources/*))
+
+(env
+ (dev
+  (flags
+   (:standard -warn-error -A))))

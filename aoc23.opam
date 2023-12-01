@@ -17,6 +17,7 @@ depends: [
   "sexplib"
   "ppx_expect" {with-test}
   "ppx_inline_test" {with-test}
+  "containers"
   "odoc" {with-doc}
 ]
 build: [
