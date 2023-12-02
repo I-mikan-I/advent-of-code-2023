@@ -11,10 +11,9 @@ doc: "https://url/to/documentation"
 bug-reports: "https://github.com/username/reponame/issues"
 depends: [
   "ocaml"
+  "ppx_deriving"
   "dune" {>= "3.10"}
   "base"
-  "ppx_jane"
-  "sexplib"
   "ppx_expect" {with-test}
   "ppx_inline_test" {with-test}
   "containers"

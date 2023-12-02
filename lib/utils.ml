@@ -5,3 +5,7 @@ let read_day file =
     (fun () -> really_input_string ic (in_channel_length ic))
 
 let split_lines str = String.split_on_char '\n' str
+
+let fix (fn : ('a -> 'b) -> 'a -> 'b) x : 'b =
+  let rec f' x' = fn f' x' in
+  fn f' x

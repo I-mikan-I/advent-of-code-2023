@@ -20,7 +20,7 @@
  (name aoc23)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml dune base ppx_jane sexplib (ppx_expect :with-test) (ppx_inline_test :with-test) containers)
+ (depends ocaml ppx_deriving dune base (ppx_expect :with-test) (ppx_inline_test :with-test) containers)
  (tags
   (topics "to describe" your project)))
 
