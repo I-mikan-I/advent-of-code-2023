@@ -17,6 +17,7 @@ depends: [
   "ppx_expect" {with-test}
   "ppx_inline_test" {with-test}
   "containers"
+  "containers-data"
   "odoc" {with-doc}
 ]
 build: [

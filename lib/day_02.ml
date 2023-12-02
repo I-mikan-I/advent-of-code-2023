@@ -74,7 +74,10 @@ let ex02 () =
   let sum = List.fold_left ( + ) 0 powers in
   Format.print_int sum
 
-let exec () = ex01 (); Format.print_newline (); ex02 ()
+let exec () =
+  ex01 ();
+  Format.print_newline ();
+  ex02 ()
 
 let%expect_test "it_works" =
   ex01 ();

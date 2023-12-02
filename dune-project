@@ -15,12 +15,21 @@
 
 (documentation https://url/to/documentation)
 
- (using "directory-targets" 0.1)
+(using "directory-targets" 0.1)
+
 (package
  (name aoc23)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml ppx_deriving dune base (ppx_expect :with-test) (ppx_inline_test :with-test) containers)
+ (depends
+  ocaml
+  ppx_deriving
+  dune
+  base
+  (ppx_expect :with-test)
+  (ppx_inline_test :with-test)
+  containers
+  containers-data)
  (tags
   (topics "to describe" your project)))
 
