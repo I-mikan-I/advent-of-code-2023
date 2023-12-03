@@ -24,6 +24,7 @@
  (depends
   ocaml
   ppx_deriving
+  ppx_hash
   dune
   base
   (ppx_expect :with-test)

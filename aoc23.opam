@@ -12,6 +12,7 @@ bug-reports: "https://github.com/username/reponame/issues"
 depends: [
   "ocaml"
   "ppx_deriving"
+  "ppx_hash"
   "dune" {>= "3.10"}
   "base"
   "ppx_expect" {with-test}
