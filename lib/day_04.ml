@@ -23,13 +23,11 @@ let scores = List.map (fun i -> if i = 0 then 0 else Int.pow 2 (i - 1)) winnings
 let ex01 () = print_endline @@ [%show: int] @@ List.fold_left ( + ) 0 scores
 
 let ex02 () =
-  let tbl = Hashtbl.create 191 in
-  for i = 1 to 190 do
+  let tbl = Hashtbl.create 1000 in
+  for i = 1 to List.length winnings do
     Hashtbl.replace tbl i 1
   done;
-  let enumerated =
-    List.scan_left (fun (e, _) n' -> (e + 1, n')) (0, 0) winnings
-  in
+  let _, enumerated = List.fold_map (fun e n' -> (e + 1, (e, n'))) 1 winnings in
   List.iter
     (fun (e, n) ->
       let mult = Hashtbl.get_or_add tbl ~f:(fun _ -> 1) ~k:e in
@@ -50,4 +48,4 @@ let%expect_test "it_works" =
   ex02 ();
   [%expect {|
     15205
-    6189741 |}]
+    6189740 |}]
