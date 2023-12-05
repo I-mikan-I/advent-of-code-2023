@@ -50,7 +50,7 @@ let rec mapr (start1, len1) (start2, len2) goal =
     let mapped, rest =
       mapr (start2, len1 - (start2 - start1)) (start2, len2) goal
     in
-    (mapped, (start1, start2 - start1) ::  rest)
+    (mapped, (start1, start2 - start1) :: rest)
   else ([], [ (start1, len1) ])
 
 let maps table ranges =
@@ -74,7 +74,7 @@ let maps table ranges =
         in
         match found with
         | Some (mapped, rest) -> iter (rest @ t) (mapped @ out_ranges)
-        | None -> assert false)
+        | None -> iter t @@ ((start, len) :: out_ranges))
     | [] -> out_ranges
   in
   iter ranges []
@@ -88,8 +88,17 @@ let seeds =
          let o, t = Scanf.sscanf pair "%d,%d" (fun a b -> (a, b)) in
          (o, t))
 
+let seedsmini =
+  "79,14 55,13" |> String.split_on_char ' '
+  |> List.map (fun pair ->
+         let o, t = Scanf.sscanf pair "%d,%d" (fun a b -> (a, b)) in
+         (o, t))
+
 let exec () =
   let mapped =
     List.fold_left (fun seeds table -> maps table seeds) seeds tables
   in
-  print_endline @@ [%show: (int * int) list] @@ mapped
+  print_endline @@ [%show: (int * int) list] @@ mapped;
+  let min = List.fold_left (Fun.flip @@ Fun.compose fst min) 100000000 mapped in
+  print_endline @@ [%show: int] min
+
