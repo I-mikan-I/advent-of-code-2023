@@ -8,10 +8,10 @@ let records2 = [ 390110311121360 ]
 let winnables millis records =
   List.map2
     (fun i record ->
-      let downpress = List.init i Fun.id in
-      let results = List.map (fun dp -> (i - dp) * dp) downpress in
-      let filtered = List.filter (fun score -> score > record) results in
-      List.length filtered)
+      let downpress = Array.init i Fun.id in
+      let results = Array.map (fun dp -> (i - dp) * dp) downpress in
+      let filtered = Array.filter (fun score -> score > record) results in
+      Array.length filtered)
     millis records
 
 let ex01 () =
