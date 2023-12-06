@@ -97,3 +97,10 @@ let ex02 () =
 let exec () =
   ex01 ();
   ex02 ()
+
+let%expect_test "it_works" =
+  ex01 ();
+  ex02 ();
+  [%expect {|
+    382895070
+    17729182 |}]
