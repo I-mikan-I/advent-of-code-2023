@@ -1,3 +1,3 @@
 open Days
 
-let () = Day05.exec ()
+let () = Day06.exec ()
