@@ -100,3 +100,10 @@ let ex02 () = print_endline @@ [%show: int] sum2
 let exec () =
   ex01 ();
   ex02 ()
+
+let%expect_test "it_works" =
+  ex01 ();
+  ex02 ();
+  [%expect {|
+    250120186
+    250665248 |}]
