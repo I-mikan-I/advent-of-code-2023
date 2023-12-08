@@ -9,3 +9,5 @@ let split_lines str = String.split_on_char '\n' str
 let fix (fn : ('a -> 'b) -> 'a -> 'b) x : 'b =
   let rec f' x' = fn f' x' in
   fn f' x
+
+let rec gcd a b = if b == 0 then a else gcd b @@ (a mod b)
