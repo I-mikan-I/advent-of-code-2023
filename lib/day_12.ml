@@ -80,3 +80,10 @@ let ex02 () = Format.printf "%d\n" @@ sum times5
 let exec () =
   ex01 ();
   ex02 ()
+
+let%expect_test "it_works" =
+  ex01 ();
+  ex02 ();
+  [%expect {|
+    7350
+    200097286528151 |}]
