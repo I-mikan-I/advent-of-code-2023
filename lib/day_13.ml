@@ -84,4 +84,7 @@ let exec () =
 
 let%expect_test "it_works" =
   ex01 ();
-  ex02 ()
+  ex02 ();
+  [%expect {|
+    32371
+    37416 |}]

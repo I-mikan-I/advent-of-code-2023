@@ -52,3 +52,10 @@ let ex02 () = Format.printf "%d\n" @@ get_dist 999999 ()
 let exec () =
   ex01 ();
   ex02 ()
+
+let%expect_test "it_works" =
+  ex01 ();
+  ex02 ();
+  [%expect {|
+    9214785
+    613686987427 |}]
