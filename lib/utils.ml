@@ -11,3 +11,14 @@ let fix (fn : ('a -> 'b) -> 'a -> 'b) x : 'b =
   fn f' x
 
 let rec gcd a b = if b == 0 then a else gcd b @@ (a mod b)
+
+let transpose a =
+  let m = ref [||] in
+  for c = 0 to Array.length a.(0) - 1 do
+    let row = ref [||] in
+    for r = 0 to Array.length a - 1 do
+      row := Array.append !row [| a.(r).(c) |]
+    done;
+    m := Array.append !m [| !row |]
+  done;
+  !m
