@@ -22,3 +22,5 @@ let transpose a =
     m := Array.append !m [| !row |]
   done;
   !m
+
+let xor a b = (a || b) && not (a && b)

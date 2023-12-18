@@ -14,3 +14,5 @@ module Day13 = Day_13
 module Day14 = Day_14
 module Day15 = Day_15
 module Day16 = Day_16
+module Day17 = Day_17
+module Day18 = Day_18
