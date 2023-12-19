@@ -12,6 +12,14 @@ type node = {
 }
 [@@deriving show, eq, ord]
 
+type node2 = {
+  mutable l' : int list;
+  mutable r' : int list;
+  mutable u' : int list;
+  mutable d' : int list;
+}
+[@@deriving show, eq, ord]
+
 let weight =
   input |> String.lines |> List.map String.to_array
   |> List.map (Array.map (fun c -> int_of_string @@ String.of_char c))
@@ -29,6 +37,18 @@ let nodes =
             r = (maxval, maxval, maxval);
             u = (maxval, maxval, maxval);
             d = (maxval, maxval, maxval);
+          }))
+
+let nodes' =
+  Array.init (Array.length weight) (fun _ ->
+      Array.init
+        (Array.length weight.(0))
+        (fun _ ->
+          {
+            l' = List.init 10 (fun _ -> maxval);
+            r' = List.init 10 (fun _ -> maxval);
+            u' = List.init 10 (fun _ -> maxval);
+            d' = List.init 10 (fun _ -> maxval);
           }))
 
 let pair3_to_list (a, b, c) = [ a; b; c ]
@@ -104,7 +124,90 @@ let relax nodes (r, c) (r', c') =
       else false
   | _ -> assert false
 
-let relax_all nodes =
+let relax' nodes (r, c) (r', c') =
+  let from = nodes.(r).(c) in
+  let dest = nodes.(r').(c') in
+  let weight = weight.(r').(c') in
+  match (r - r', c - c') with
+  | -1, 0 ->
+      (*down*)
+      let fl = dest.d' in
+      let dl = from.d' in
+      let d' =
+        ([ List.drop 3 from.r'; List.drop 3 from.l' ]
+        |> List.flatten |> List.fold_left min maxval)
+        + weight
+      in
+      let updated =
+        (min d' @@ List.nth fl 0)
+        :: List.map2 min
+             (List.take 9 dl |> List.map (( + ) weight))
+             (List.drop 1 fl)
+      in
+      if not @@ [%eq: int list] dest.d' updated then (
+        dest.d' <- updated;
+        true)
+      else false
+  | 1, 0 ->
+      (*up*)
+      let fl = dest.u' in
+      let dl = from.u' in
+      let d' =
+        ([ List.drop 3 from.r'; List.drop 3 from.l' ]
+        |> List.flatten |> List.fold_left min maxval)
+        + weight
+      in
+      let updated =
+        (min d' @@ List.nth fl 0)
+        :: List.map2 min
+             (List.take 9 dl |> List.map (( + ) weight))
+             (List.drop 1 fl)
+      in
+      if not @@ [%eq: int list] dest.u' updated then (
+        dest.u' <- updated;
+        true)
+      else false
+  | 0, -1 ->
+      (*right*)
+      let fl = dest.r' in
+      let dl = from.r' in
+      let d' =
+        ([ List.drop 3 from.u'; List.drop 3 from.d' ]
+        |> List.flatten |> List.fold_left min maxval)
+        + weight
+      in
+      let updated =
+        (min d' @@ List.nth fl 0)
+        :: List.map2 min
+             (List.take 9 dl |> List.map (( + ) weight))
+             (List.drop 1 fl)
+      in
+      if not @@ [%eq: int list] dest.r' updated then (
+        dest.r' <- updated;
+        true)
+      else false
+  | 0, 1 ->
+      (*left*)
+      let fl = dest.l' in
+      let dl = from.l' in
+      let d' =
+        ([ List.drop 3 from.u'; List.drop 3 from.d' ]
+        |> List.flatten |> List.fold_left min maxval)
+        + weight
+      in
+      let updated =
+        (min d' @@ List.nth fl 0)
+        :: List.map2 min
+             (List.take 9 dl |> List.map (( + ) weight))
+             (List.drop 1 fl)
+      in
+      if not @@ [%eq: int list] dest.l' updated then (
+        dest.l' <- updated;
+        true)
+      else false
+  | _ -> assert false
+
+let relax_all relax nodes =
   let indices =
     List.product Pair.make
       (List.range' 0 @@ Array.length nodes)
@@ -124,15 +227,78 @@ let relax_all nodes =
     (fun acc (from, dest) -> relax nodes from dest || acc)
     false edges
 
-let fix nodes =
+let fix relax_all nodes =
   let rec f b = b && relax_all nodes && f b in
   f true
 
-let exec () =
-  nodes.(0).(0) <-
-    { l = (0, 0, 0); r = (0, 0, 0); u = (0, 0, 0); d = (0, 0, 0) };
-  let _ = relax_all nodes in
-  let _ = relax_all nodes in
-  let _ = relax_all nodes in
-  let _ = fix nodes in
-  print_endline @@ [%show: node array array] nodes
+(* let ex01 () =
+   nodes.(0).(0) <-
+     { l = (0, 0, 0); r = (0, 0, 0); u = (0, 0, 0); d = (0, 0, 0) };
+   let _ = relax_all nodes in
+   let _ = relax_all nodes in
+   let _ = relax_all nodes in
+   let _ = fix nodes in
+   print_endline @@ [%show: node array array] nodes *)
+
+let ex02 () =
+  nodes'.(0).(0) <-
+    {
+      l' =
+        [
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          0;
+        ];
+      r' =
+        [
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          0;
+        ];
+      u' =
+        [
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          0;
+        ];
+      d' =
+        [
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          maxval;
+          0;
+        ];
+    };
+  let _ = relax_all relax' nodes' in
+  let _ = relax_all relax' nodes' in
+  let _ = fix (relax_all relax') nodes' in
+  print_endline @@ [%show: node2 array array] nodes'
+
+let exec () = ex02 ()
